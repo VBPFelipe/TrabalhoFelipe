@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_border"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/txtSalarioBruto"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:text="Salário Bruto:"
+        android:textAlignment="viewEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtNDependentes"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Nº Dependentes:"
+        android:textAlignment="viewEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edtNDependentes" />
+
+    <EditText
+        android:id="@+id/edtSalarioBruto"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/rounded_border"
+        android:ems="10"
+        android:hint="998.00"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtSalarioBruto"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edtNDependentes"
+        android:layout_width="64dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_border"
+        android:ems="10"
+        android:hint="1"
+        android:inputType="number"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="@+id/edtSalarioBruto"
+        app:layout_constraintTop_toBottomOf="@+id/edtSalarioBruto" />
+
+    <Button
+        android:id="@+id/btnCalcular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Calcular"
+        app:layout_constraintStart_toStartOf="@+id/edtNDependentes"
+        app:layout_constraintTop_toBottomOf="@+id/edtNDependentes" />
+
+    <TextView
+        android:id="@+id/txtAliquotaINSS"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Alíquota INSS:"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtAliqINSSVal" />
+
+    <TextView
+        android:id="@+id/txtAliqINSSVal"
+        android:layout_width="64dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="16dp"
+        android:text="8.0%"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/btnCalcular"
+        app:layout_constraintTop_toBottomOf="@+id/btnCalcular" />
+
+    <TextView
+        android:id="@+id/txtBaseINSS"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Base INSS:"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtBaseINSSVal" />
+
+    <TextView
+        android:id="@+id/txtBaseINSSVal"
+        android:layout_width="128dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="16dp"
+        android:text="998.00"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/txtAliqINSSVal"
+        app:layout_constraintTop_toBottomOf="@+id/txtAliqINSSVal" />
+
+    <TextView
+        android:id="@+id/txtValorINSS"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Valor INSS:"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtValorINSSVal" />
+
+    <TextView
+        android:id="@+id/txtValorINSSVal"
+        android:layout_width="128dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="16dp"
+        android:text="79.84"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/txtBaseINSSVal"
+        app:layout_constraintTop_toBottomOf="@+id/txtBaseINSSVal" />
+
+    <TextView
+        android:id="@+id/txtBaseIRPF"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Base IRPF:"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtBaseIRPFVal" />
+
+    <TextView
+        android:id="@+id/txtBaseIRPFVal"
+        android:layout_width="128dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="16dp"
+        android:text="728.57"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/txtValorINSSVal"
+        app:layout_constraintTop_toBottomOf="@+id/txtValorINSSVal" />
+
+    <TextView
+        android:id="@+id/txtAliquotaIRPF"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Alíquota IRPF:"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtAliquotaIRPFVal" />
+
+    <TextView
+        android:id="@+id/txtAliquotaIRPFVal"
+        android:layout_width="64dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="16dp"
+        android:text="0%"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/txtBaseIRPFVal"
+        app:layout_constraintTop_toBottomOf="@+id/txtBaseIRPFVal" />
+
+    <TextView
+        android:id="@+id/txtDeducaoIRPF"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Dedução IRPF:"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtDeducaoIRPFVal" />
+
+    <TextView
+        android:id="@+id/txtDeducaoIRPFVal"
+        android:layout_width="128dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="16dp"
+        android:text="0.00"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/txtAliquotaIRPFVal"
+        app:layout_constraintTop_toBottomOf="@+id/txtAliquotaIRPFVal" />
+
+    <TextView
+        android:id="@+id/txtValorIRPF"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Valor IRPF:"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtValorIRPFVal" />
+
+    <TextView
+        android:id="@+id/txtValorIRPFVal"
+        android:layout_width="128dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="16dp"
+        android:text="0.00"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/txtDeducaoIRPFVal"
+        app:layout_constraintTop_toBottomOf="@+id/txtDeducaoIRPFVal" />
+
+    <TextView
+        android:id="@+id/txtSalLiq"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="SALÁRIO LÍQUIDO"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtSalLiqVal" />
+
+    <TextView
+        android:id="@+id/txtSalLiqVal"
+        android:layout_width="160dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:text="918,16"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/txtValorIRPFVal"
+        app:layout_constraintTop_toBottomOf="@+id/txtValorIRPFVal" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabGrafico"
+        android:layout_width="61dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/rounded_border" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
