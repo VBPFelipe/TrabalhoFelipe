@@ -56,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
 
     TextView txtSalLiq, txtSalLiqVal;
 
+    double salarioLiquido = 0;
+    double valorIRPF = 0;
+    double valorINSS = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,9 +90,16 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                plotGrafico();
-                Toast.makeText(getApplicationContext(),"Gerando Gráfico...", Toast.LENGTH_LONG).
-                        show();
+                try {
+                    plotGrafico();
+                    Toast.makeText(getApplicationContext(), "Gerando Gráfico...", Toast.LENGTH_LONG).
+                            show();
+                }catch(Exception e){
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "Erro: "+ e.getMessage(), Toast.LENGTH_LONG).
+                            show();
+
+                }
             }
         });
     }
@@ -143,16 +154,16 @@ public class MainActivity extends AppCompatActivity {
 
         double baseINSS = calculoBaseINSS(valorSalarioBruto);
 
-        double valorINSS = aliquotaINSS * baseINSS;
+        valorINSS = aliquotaINSS * baseINSS;
 
         double baseIRPF = valorSalarioBruto - valorINSS - (dependentes * BASE_IRPF_PARAMETRO);
 
         double aliquotaIRPF = calculoAliquotaIRPF(baseIRPF);
         double deducaoIRPF = calculoDeducaoIRPF(baseIRPF);
 
-        double valorIRPF = (baseIRPF * aliquotaIRPF) - deducaoIRPF;
+        valorIRPF = (baseIRPF * aliquotaIRPF) - deducaoIRPF;
 
-        double salarioLiquido = valorSalarioBruto - valorINSS - valorIRPF;
+        salarioLiquido = valorSalarioBruto - valorINSS - valorIRPF;
 
         txtAliqINSSVal.setText( (aliquotaINSS * 100.00) + "%");
         txtBaseINSSVal.setText(String.format("%.02f", baseINSS));
@@ -249,18 +260,12 @@ public class MainActivity extends AppCompatActivity {
      * Em seguida, inicia a activity.
      */
     private void plotGrafico(){
-        Float salarioLiquido, inss, irpf;
-
-        salarioLiquido = Float.parseFloat(txtSalLiqVal.getText().toString());
-        inss = Float.parseFloat(txtValorINSSVal.getText().toString());
-        irpf = Float.parseFloat(txtValorIRPFVal.getText().toString());
-
         Intent telaGrafico = new Intent(MainActivity.this, SalarioBrutoPieChart.class);
 
         //Passando os valores para a outra Activity - SalarioBrutoPieChart
-        telaGrafico.putExtra("SalarioLiquido", salarioLiquido);
-        telaGrafico.putExtra("ValorINSS", inss);
-        telaGrafico.putExtra("ValorIRPF", irpf);
+        telaGrafico.putExtra("SalarioLiquido", Float.parseFloat(String.valueOf(salarioLiquido)));
+        telaGrafico.putExtra("ValorINSS", Float.parseFloat(String.valueOf(valorINSS)));
+        telaGrafico.putExtra("ValorIRPF", Float.parseFloat(String.valueOf(valorIRPF)));
 
         //chamando a outra activity
         startActivity(telaGrafico);
