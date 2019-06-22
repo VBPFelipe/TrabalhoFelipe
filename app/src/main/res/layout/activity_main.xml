@@ -61,10 +61,11 @@
         android:id="@+id/btnCalcular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="24dp"
+        android:background="@drawable/btncalc_rounded_border"
         android:text="Calcular"
-        app:layout_constraintStart_toStartOf="@+id/edtNDependentes"
-        app:layout_constraintTop_toBottomOf="@+id/edtNDependentes" />
+        app:layout_constraintStart_toEndOf="@+id/edtNDependentes"
+        app:layout_constraintTop_toTopOf="@+id/edtNDependentes" />
 
     <TextView
         android:id="@+id/txtAliquotaINSS"
@@ -85,8 +86,8 @@
         android:text="8.0%"
         android:textAlignment="center"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/btnCalcular"
-        app:layout_constraintTop_toBottomOf="@+id/btnCalcular" />
+        app:layout_constraintStart_toStartOf="@+id/edtNDependentes"
+        app:layout_constraintTop_toBottomOf="@+id/edtNDependentes" />
 
     <TextView
         android:id="@+id/txtBaseINSS"
@@ -127,6 +128,7 @@
         android:layout_marginTop="16dp"
         android:text="79.84"
         android:textStyle="bold"
+        android:inputType="numberDecimal"
         app:layout_constraintStart_toStartOf="@+id/txtBaseINSSVal"
         app:layout_constraintTop_toBottomOf="@+id/txtBaseINSSVal" />
 
@@ -202,6 +204,7 @@
         android:layout_marginTop="8dp"
         android:text="Valor IRPF:"
         android:textAlignment="textEnd"
+        android:inputType="numberDecimal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/txtValorIRPFVal" />
 
@@ -236,6 +239,7 @@
         android:layout_marginTop="24dp"
         android:text="918,16"
         android:textSize="24sp"
+        android:inputType="numberDecimal"
         app:layout_constraintStart_toStartOf="@+id/txtValorIRPFVal"
         app:layout_constraintTop_toBottomOf="@+id/txtValorIRPFVal" />
 

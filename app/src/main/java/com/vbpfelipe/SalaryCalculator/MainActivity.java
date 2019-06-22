@@ -2,6 +2,7 @@ package com.vbpfelipe.SalaryCalculator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,10 +10,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final double ALIQUOTA_INSS_PARAMETRO_1 = 1751.81;
     private static final double ALIQUOTA_INSS_PARAMETRO_2 = 2919.72;
+
+    private static final double ALIQUOTA_INSS_1 = 0.08;
+    private static final double ALIQUOTA_INSS_2 = 0.09;
+    private static final double ALIQUOTA_INSS_3 = 0.11;
 
     private static final double BASE_INSS_PARAMETRO = 5839.45;
 
@@ -40,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnCalcular;
 
+    FloatingActionButton fab;
+
     TextView txtAliquotaINSS, txtAliqINSSVal, txtBaseINSS, txtBaseINSSVal,
             txtValorINSS, txtValorINSSVal, txtBaseIRPF, txtBaseIRPFVal,
             txtAliquotaIRPF, txtAliquotaIRPFVal, txtDeducaoIRPF, txtDeducaoIRPFVal,
@@ -47,12 +56,18 @@ public class MainActivity extends AppCompatActivity {
 
     TextView txtSalLiq, txtSalLiqVal;
 
+    double salarioLiquido = 0;
+    double valorIRPF = 0;
+    double valorINSS = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         initParameters();
+
+        //Botão designado para o cálculo quando clicado
         btnCalcular = (Button) findViewById(R.id.btnCalcular);
         btnCalcular.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +80,25 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                     Toast.makeText(MainActivity.this, "ERROR: " + e.getMessage(), Toast.LENGTH_LONG).
                             show();
+                }
+            }
+        });
+
+
+        //botão flutuante que inicializa os procedimentos para o gráfico quando clicado
+        fab = (FloatingActionButton) findViewById(R.id.fabGrafico);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    plotGrafico();
+                    Toast.makeText(getApplicationContext(), "Gerando Gráfico...", Toast.LENGTH_LONG).
+                            show();
+                }catch(Exception e){
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "Erro: "+ e.getMessage(), Toast.LENGTH_LONG).
+                            show();
+
                 }
             }
         });
@@ -103,6 +137,14 @@ public class MainActivity extends AppCompatActivity {
         txtSalLiqVal = (TextView) findViewById(R.id.txtSalLiqVal);
     }
 
+    /**
+     * Método irá calcular o Salário Líquido do usuário,
+     * de acordo com o salário bruto e quantida de dependentes
+     * fornecidos na entrada de dados do app.
+     *
+     * O cálculo tem em base à partir dos descontos dos valores de INSS e IRPF
+     * em cima do Salário Bruto.
+     */
     private void calculoSalario(){
 
         double valorSalarioBruto = Double.parseDouble(edtSalarioBruto.getText().toString());
@@ -112,16 +154,16 @@ public class MainActivity extends AppCompatActivity {
 
         double baseINSS = calculoBaseINSS(valorSalarioBruto);
 
-        double valorINSS = aliquotaINSS * baseINSS;
+        valorINSS = aliquotaINSS * baseINSS;
 
         double baseIRPF = valorSalarioBruto - valorINSS - (dependentes * BASE_IRPF_PARAMETRO);
 
         double aliquotaIRPF = calculoAliquotaIRPF(baseIRPF);
         double deducaoIRPF = calculoDeducaoIRPF(baseIRPF);
 
-        double valorIRPF = (baseIRPF * aliquotaIRPF) - deducaoIRPF;
+        valorIRPF = (baseIRPF * aliquotaIRPF) - deducaoIRPF;
 
-        double salarioLiquido = valorSalarioBruto - valorINSS - valorIRPF;
+        salarioLiquido = valorSalarioBruto - valorINSS - valorIRPF;
 
         txtAliqINSSVal.setText( (aliquotaINSS * 100.00) + "%");
         txtBaseINSSVal.setText(String.format("%.02f", baseINSS));
@@ -133,18 +175,28 @@ public class MainActivity extends AppCompatActivity {
         txtSalLiqVal.setText(String.format("%.02f", salarioLiquido));
     }
 
+    /**
+     * Retorna Alíquota INSS
+     * @param valorSalarioBruto
+     * @return - Valor em tipo double, seguindo o padrão
+     */
     private double calculoAliquotaINSS(double valorSalarioBruto){
 
         if(valorSalarioBruto <= ALIQUOTA_INSS_PARAMETRO_1)
-            return 0.08;
+            return ALIQUOTA_INSS_1;
         else{
             if(valorSalarioBruto <= ALIQUOTA_INSS_PARAMETRO_2)
-                return 0.09;
+                return ALIQUOTA_INSS_2;
             else
-                return 0.11;
+                return ALIQUOTA_INSS_3;
         }
     }
 
+    /**
+     * Retorna valor Base do INSS
+     * @param valorSalarioBruto
+     * @return - valor em tipo double, de acordo com o padrão
+     */
     private double calculoBaseINSS(double valorSalarioBruto){
         if(valorSalarioBruto <= BASE_INSS_PARAMETRO)
             return valorSalarioBruto;
@@ -152,6 +204,11 @@ public class MainActivity extends AppCompatActivity {
             return BASE_INSS_PARAMETRO;
     }
 
+    /**
+     * Retorna o valor da Alíquota do IRPF
+     * @param baseIRPF
+     * @return - valor de acordo padrão, em tipo double
+     */
     private double calculoAliquotaIRPF(Double baseIRPF){
         if(baseIRPF > ALIQUOTA_DEDUCAO_IRPF_PARAMETRO_4)
             return ALIQUOTA_IRPF_PARAMETRO_5;
@@ -171,6 +228,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Retorna o valor da Dedução do IRPF
+     * @param baseIRPF
+     * @return - valores da tabela de acordo com padrões, em tipo double
+     */
     private double calculoDeducaoIRPF(Double baseIRPF){
         if(baseIRPF > ALIQUOTA_DEDUCAO_IRPF_PARAMETRO_4)
             return DEDUCAO_IRPF_PARAMETRO_5;
@@ -188,5 +250,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    /**
+     * plotGráfico
+     * Povoa parâmetros com respectivos valores para repassar à Activity SalarioBRutoPieChart
+     * que gerará o gráfico em disco
+     *
+     * Em seguida, inicia a activity.
+     */
+    private void plotGrafico(){
+        Intent telaGrafico = new Intent(MainActivity.this, SalarioBrutoPieChart.class);
+
+        //Passando os valores para a outra Activity - SalarioBrutoPieChart
+        telaGrafico.putExtra("SalarioLiquido", Float.parseFloat(String.valueOf(salarioLiquido)));
+        telaGrafico.putExtra("ValorINSS", Float.parseFloat(String.valueOf(valorINSS)));
+        telaGrafico.putExtra("ValorIRPF", Float.parseFloat(String.valueOf(valorIRPF)));
+
+        //chamando a outra activity
+        startActivity(telaGrafico);
     }
 }
